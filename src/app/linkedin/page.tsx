@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { getGoogleCompanyPosts, GoogleCompanyPost } from "../_utils/getBitcoinPrice";
+import { getLinkedInCompanyPosts, LinkedInCompanyPost } from "../_utils/getLinkedInCompanyPosts";
 
-export default async function BitcoinPage() {
-  const data = await getGoogleCompanyPosts();
-  const posts: GoogleCompanyPost[] = data?.data || [];
+export default async function LinkedinPage() {
+  const data = await getLinkedInCompanyPosts();
+  const posts: LinkedInCompanyPost[] = data?.data || [];
 
   return (
     <main className="flex flex-col gap-8 items-center sm:items-start p-8">

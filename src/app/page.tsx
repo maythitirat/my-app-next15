@@ -1,8 +1,60 @@
+"use client";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // ปิดเมนูเมื่อคลิกนอก navigation
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      {/* Burger menu button */}
+      <button
+        className="fixed top-6 left-6 z-50 flex flex-col gap-1.5 w-10 h-10 justify-center items-center bg-white/80 dark:bg-black/40 rounded shadow-md"
+        aria-label="Open menu"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <span className="block w-6 h-0.5 bg-black dark:bg-white rounded" />
+        <span className="block w-6 h-0.5 bg-black dark:bg-white rounded" />
+        <span className="block w-6 h-0.5 bg-black dark:bg-white rounded" />
+      </button>
+      {/* Slide-in navigation */}
+      <div
+        className={`fixed inset-0 z-40 transition-colors duration-300 ${
+          open ? "bg-black/40" : "bg-transparent pointer-events-none"
+        }`}
+        aria-hidden={!open}
+      />
+      <nav
+        ref={navRef}
+        className={`fixed top-0 left-0 z-50 h-full w-64 bg-white dark:bg-black shadow-lg transform transition-transform duration-300 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+        style={{ willChange: "transform" }}
+        aria-label="Sidebar navigation"
+      >
+        <div className="flex flex-col gap-6 p-8 pt-20">
+          <a
+            href="/linkedin"
+            className="text-lg font-semibold text-blue-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            LinkedIn
+          </a>
+        </div>
+      </nav>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -48,12 +100,6 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             Read our docs
-          </a>
-          <a
-            className="rounded-full border border-solid border-blue-500 text-blue-700 bg-blue-100 hover:bg-blue-200 transition-colors flex items-center justify-center font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="/bitcoin"
-          >
-            ดูราคา Bitcoin
           </a>
         </div>
       </main>

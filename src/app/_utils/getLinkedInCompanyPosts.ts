@@ -1,5 +1,4 @@
-// src/app/_utils/getGoogleCompanyPosts.ts
-export type GoogleCompanyPost = {
+export type LinkedInCompanyPost = {
   isBrandPartnership: boolean;
   text: string;
   totalReactionCount: number;
@@ -24,27 +23,24 @@ export type GoogleCompanyPost = {
   contentType?: string;
 };
 
-export type GoogleCompanyPostsResponse = {
+export type LinkedInCompanyPostsResponse = {
   success: boolean;
   message: string;
-  data: GoogleCompanyPost[];
+  data: LinkedInCompanyPost[];
   total: number;
   totalPage: number;
   paginationToken: string;
 };
 
-export async function getGoogleCompanyPosts(): Promise<GoogleCompanyPostsResponse> {
-  // ตรวจสอบว่าอยู่ฝั่ง server หรือ client
+export async function getLinkedInCompanyPosts(): Promise<LinkedInCompanyPostsResponse> {
   if (typeof window !== "undefined") {
-    // หลีกเลี่ยงการ fetch API นี้ฝั่ง client เพื่อป้องกัน hydration mismatch
-    throw new Error("getGoogleCompanyPosts should only be called on the server (in Server Component or getServerSideProps)");
+    throw new Error("getLinkedInCompanyPosts should only be called on the server (in Server Component or getServerSideProps)");
   }
   const res = await fetch("https://linkedin-api8.p.rapidapi.com/get-company-posts?username=google&start=0", {
     headers: {
       'x-rapidapi-host': 'linkedin-api8.p.rapidapi.com',
       'x-rapidapi-key': '49f746cc25msh1fc75b3c9be6927p1ea0d7jsnac87ea4b3477',
     },
-    // ป้องกัน cache เพื่อให้ SSR ได้ข้อมูลใหม่เสมอ
     cache: 'no-store',
   });
   if (!res.ok) throw new Error("Failed to fetch data");

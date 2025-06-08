@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getGoogleCompanyPosts } from "./getBitcoinPrice";
+import { getLinkedInCompanyPosts } from "./getLinkedInCompanyPosts";
 
-describe("getGoogleCompanyPosts", () => {
-  it("should fetch Google company posts successfully", async () => {
+describe("getLinkedInCompanyPosts", () => {
+  it("should fetch LinkedIn company posts successfully", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -40,10 +40,10 @@ describe("getGoogleCompanyPosts", () => {
         total: 288,
         totalPage: 6,
         paginationToken: "1495408863-1749395034562-787454fe2536a565a42a7153faf5884c"
-      }),
-    }) as any;
+      })
+    }) as jest.MockedFunction<any>;
 
-    const data = await getGoogleCompanyPosts();
+    const data = await getLinkedInCompanyPosts();
     expect(data.success).toBe(true);
     expect(data.data[0].text).toContain("The Gemini app helps you crush your to-do list");
     expect(data.data[0].likeCount).toBe(415);
@@ -51,7 +51,7 @@ describe("getGoogleCompanyPosts", () => {
   });
 
   it("should throw error if fetch fails", async () => {
-    global.fetch = jest.fn().mockResolvedValue({ ok: false }) as any;
-    await expect(getGoogleCompanyPosts()).rejects.toThrow("Failed to fetch data");
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, json: async () => ({}) }) as jest.MockedFunction<any>;
+    await expect(getLinkedInCompanyPosts()).rejects.toThrow("Failed to fetch data");
   });
 });
