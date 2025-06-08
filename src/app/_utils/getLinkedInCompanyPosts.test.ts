@@ -58,8 +58,15 @@ describe("getLinkedInCompanyPosts", () => {
   });
 
   it("should throw error if fetch fails", async () => {
-    // override for this test to simulate fetch fail
     (global.fetch as jest.Mock).mockImplementationOnce(() => Promise.resolve({ ok: false, json: async () => ({}) }));
     await expect(getLinkedInCompanyPosts()).rejects.toThrow("Failed to fetch data");
+  });
+
+  it("should throw error if called on client side (window defined)", async () => {
+    // @ts-expect-error test: simulate window for client-side error
+    global.window = {};
+    await expect(getLinkedInCompanyPosts()).rejects.toThrow("getLinkedInCompanyPosts should only be called on the server");
+    // @ts-expect-error test: cleanup window after test
+    delete global.window;
   });
 });

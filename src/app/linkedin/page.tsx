@@ -1,13 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { getLinkedInCompanyPosts, LinkedInCompanyPost } from "../_utils/getLinkedInCompanyPosts";
+import type { LinkedInCompanyPost } from "../_utils/getLinkedInCompanyPosts";
 
-export default async function LinkedinPage() {
-  const data = await getLinkedInCompanyPosts();
-  const posts: LinkedInCompanyPost[] = data?.data || [];
+export default function LinkedinPage() {
+  const [posts, setPosts] = useState<LinkedInCompanyPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/linkedin/company-posts")
+      .then((res) => res.json())
+      .then((data) => setPosts(data.data || []))
+      .catch((e) => setError(e.message || "Error fetching posts"))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <main className="flex flex-col gap-8 items-center sm:items-start p-8">
       <h2 className="font-bold text-2xl mb-4">Google LinkedIn Posts</h2>
+      {loading && (
+        <div className="flex items-center gap-2 text-blue-600 mb-4">
+          <span className="inline-block w-5 h-5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+          Loading...
+        </div>
+      )}
+      {error && <div className="text-red-500">{error}</div>}
       <ul className="w-full max-w-2xl space-y-6">
         {posts.map((post) => (
           <li key={post.urn} className="border rounded p-4 bg-white/80 dark:bg-black/40">

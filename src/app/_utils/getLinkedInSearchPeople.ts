@@ -32,5 +32,8 @@ export async function getLinkedInSearchPeople({ keywords, start = 0, geo = '' }:
     cache: 'no-store',
   });
   if (!res.ok) throw new Error("Failed to fetch data");
-  return res.json();
+  const json = await res.json();
+  if (!json.success) throw new Error(json.message || "LinkedIn API error");
+  if (!json.data) throw new Error("Malformed response: missing data field");
+  return json;
 }
