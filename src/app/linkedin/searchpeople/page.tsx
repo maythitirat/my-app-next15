@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getLinkedInSearchPeople, LinkedInPerson } from "../../_utils/getLinkedInSearchPeople";
+import Image from 'next/image';
 
-export default async function SearchPeoplePage({ searchParams }: { searchParams?: { keywords?: string; geo?: string } }) {
-  const keywords = searchParams?.keywords || "max";
-  const geo = searchParams?.geo || "103644278,101165590";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function SearchPeoplePage({ searchParams }: any) {
+  const keywordsRaw = searchParams?.keywords ?? "max";
+  const geoRaw = searchParams?.geo ?? "103644278,101165590";
+  const keywords = Array.isArray(keywordsRaw) ? keywordsRaw[0] : keywordsRaw;
+  const geo = Array.isArray(geoRaw) ? geoRaw[0] : geoRaw;
   let people: LinkedInPerson[] = [];
   let total = 0;
   let error = "";
@@ -11,8 +14,8 @@ export default async function SearchPeoplePage({ searchParams }: { searchParams?
     const res = await getLinkedInSearchPeople({ keywords, geo });
     people = res.data.items;
     total = res.data.total;
-  } catch (e: any) {
-    error = e.message || "Error fetching people";
+  } catch (e) {
+    error = (e as Error).message || "Error fetching people";
   }
 
   return (
@@ -41,7 +44,7 @@ export default async function SearchPeoplePage({ searchParams }: { searchParams?
         {people.map((p: LinkedInPerson) => (
           <li key={p.username} style={{ display: "flex", alignItems: "center", marginBottom: 18, background: "#fafbfc", borderRadius: 8, padding: 12, boxShadow: "0 1px 4px #0001" }}>
             {p.profilePicture ? (
-              <img src={p.profilePicture} alt={p.fullName} width={56} height={56} style={{ borderRadius: "50%", marginRight: 16, objectFit: "cover" }} />
+              <Image src={p.profilePicture} alt={p.fullName} width={56} height={56} style={{ borderRadius: "50%", marginRight: 16, objectFit: "cover" }} />
             ) : (
               <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#eee", marginRight: 16, display: "flex", alignItems: "center", justifyContent: "center", color: "#aaa", fontSize: 24 }}>
                 ?
