@@ -51,7 +51,14 @@ export default function Home() {
             className="text-lg font-semibold text-blue-700 hover:underline"
             onClick={() => setOpen(false)}
           >
-            LinkedIn
+            LinkedIn: Company Posts
+          </a>
+          <a
+            href="/linkedin/searchpeople"
+            className="text-lg font-semibold text-blue-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            LinkedIn: Search People
           </a>
         </div>
       </nav>
