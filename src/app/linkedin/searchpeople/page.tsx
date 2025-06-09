@@ -3,8 +3,9 @@ import Image from 'next/image';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function SearchPeoplePage({ searchParams }: any) {
-  const keywordsRaw = searchParams?.keywords ?? "max";
-  const geoRaw = searchParams?.geo ?? "103644278,101165590";
+  const params = await searchParams;
+  const keywordsRaw = params?.keywords ?? "max";
+  const geoRaw = params?.geo ?? "103644278,101165590";
   const keywords = Array.isArray(keywordsRaw) ? keywordsRaw[0] : keywordsRaw;
   const geo = Array.isArray(geoRaw) ? geoRaw[0] : geoRaw;
   let people: LinkedInPerson[] = [];

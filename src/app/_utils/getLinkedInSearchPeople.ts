@@ -29,7 +29,7 @@ export async function getLinkedInSearchPeople({ keywords, start = 0, geo = '' }:
       'x-rapidapi-host': 'linkedin-api8.p.rapidapi.com',
       'x-rapidapi-key': '49f746cc25msh1fc75b3c9be6927p1ea0d7jsnac87ea4b3477',
     },
-    cache: 'no-store',
+    cache: 'no-cache',
   });
   if (!res.ok) throw new Error("Failed to fetch data");
   const json = await res.json();
