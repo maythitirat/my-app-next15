@@ -1,5 +1,6 @@
 import { getLinkedInSearchPeople, LinkedInPerson } from "../../_utils/getLinkedInSearchPeople";
 import Image from 'next/image';
+import Link from "next/link";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function SearchPeoplePage({ searchParams }: any) {
@@ -20,7 +21,11 @@ export default async function SearchPeoplePage({ searchParams }: any) {
   }
 
   return (
-    <main style={{ maxWidth: 700, margin: "0 auto", padding: 24 }}>
+    <main style={{ maxWidth: 700, margin: "0 auto", padding: 24, position: "relative" }}>
+      <Link href="/" style={{ position: "absolute", left: 24, top: 24, textDecoration: "none", color: "#0073b1", fontWeight: 600, fontSize: 18, padding: 8, background: "#ffe066", borderRadius: 6, zIndex: 10 }}>
+        ← Back
+      </Link>
+      <div style={{ minHeight: 40 }} />
       <h1>LinkedIn People Search</h1>
       <form method="get" style={{ marginBottom: 24 }}>
         <input

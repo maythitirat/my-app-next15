@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { LinkedInCompanyPost } from "../_utils/getLinkedInCompanyPosts";
+import Link from "next/link";
 
 export default function LinkedinPage() {
   const [posts, setPosts] = useState<LinkedInCompanyPost[]>([]);
@@ -18,7 +19,11 @@ export default function LinkedinPage() {
   }, []);
 
   return (
-    <main className="flex flex-col gap-8 items-center sm:items-start p-8">
+    <main className="flex flex-col gap-8 items-center sm:items-start p-8 relative">
+      <Link href="/" style={{ position: "absolute", left: 24, top: 24, textDecoration: "none", color: "#0073b1", fontWeight: 600, fontSize: 18, padding: 8, background: "#ffe066", borderRadius: 6, zIndex: 10 }}>
+        ← Back
+      </Link>
+      <div style={{ minHeight: 40 }} />
       <h2 className="font-bold text-2xl mb-4">Google LinkedIn Posts</h2>
       {loading && (
         <div className="flex items-center gap-2 text-blue-600 mb-4">
