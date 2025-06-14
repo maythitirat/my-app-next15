@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AuthForm({ onAuth }: { onAuth: () => void }) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("pending_auth_name", name);
+  }, [name]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const [hasToken, setHasToken] = useState(false);
   const [open, setOpen] = useState(false);
+  const [ip, setIp] = useState("");
+  const [name, setName] = useState("");
   const navRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -29,6 +31,16 @@ export default function Home() {
       setHasToken(true);
     }
   }, [router]);
+
+  useEffect(() => {
+    // ดึง IP
+    fetch("/api/get-ip")
+      .then((res) => res.json())
+      .then((data) => setIp(data.ip || ""));
+    // ดึงชื่อจาก localStorage (ถ้าเก็บไว้ตอน login)
+    const n = localStorage.getItem("auth_name");
+    setName(n || "");
+  }, []);
 
   if (!hasToken) return null;
 
@@ -188,6 +200,10 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-white/80 rounded px-4 py-2 shadow text-center text-sm text-[#22242a] font-medium">
+        {name && <span>👤 {name} </span>}
+        {ip && <span> | 🌐 {ip}</span>}
+      </div>
     </div>
   );
 }
