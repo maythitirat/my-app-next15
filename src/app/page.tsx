@@ -60,6 +60,13 @@ export default function Home() {
           >
             LinkedIn: Search People
           </a>
+          <a
+            href="/resume"
+            className="text-lg font-semibold text-blue-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            Resume
+          </a>
         </div>
       </nav>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">

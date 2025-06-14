@@ -1,0 +1,41 @@
+/* Firebase-like color palette */
+:root {
+  --firebase-yellow: #ffcb2b;
+  --firebase-orange: #ffa000;
+  --firebase-dark: #22242a;
+  --firebase-blue: #039be5;
+  --firebase-gray: #f5f7fa;
+}
+
+.resume-firebase-bg {
+  background: linear-gradient(135deg, var(--firebase-yellow) 0%, var(--firebase-orange) 100%);
+}
+
+.resume-firebase-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(34,36,42,0.10), 0 1.5px 4px 0 rgba(34,36,42,0.08);
+  padding: 2.5rem 2rem;
+  margin-top: 2rem;
+}
+
+.resume-firebase-title {
+  color: var(--firebase-dark);
+  font-weight: 700;
+}
+
+.resume-firebase-section-title {
+  color: var(--firebase-blue);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.resume-firebase-chip {
+  display: inline-block;
+  background: var(--firebase-gray);
+  color: var(--firebase-dark);
+  border-radius: 999px;
+  padding: 0.25rem 1rem;
+  font-size: 0.95rem;
+  margin: 0.15rem 0.4rem 0.15rem 0;
+}
