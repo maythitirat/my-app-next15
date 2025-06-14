@@ -22,12 +22,24 @@
 .resume-firebase-title {
   color: var(--firebase-dark);
   font-weight: 700;
+  font-size: 2rem;
+}
+@media (min-width: 640px) {
+  .resume-firebase-title {
+    font-size: 2.5rem;
+  }
 }
 
 .resume-firebase-section-title {
   color: var(--firebase-blue);
   font-weight: 600;
   margin-bottom: 0.5rem;
+  font-size: 1.08rem;
+}
+@media (min-width: 640px) {
+  .resume-firebase-section-title {
+    font-size: 1.22rem;
+  }
 }
 
 .resume-firebase-chip {
@@ -38,4 +50,18 @@
   padding: 0.25rem 1rem;
   font-size: 0.95rem;
   margin: 0.15rem 0.4rem 0.15rem 0;
+}
+@media (min-width: 640px) {
+  .resume-firebase-chip {
+    font-size: 1.05rem;
+  }
+}
+
+.resume-firebase-detail {
+  font-size: 0.97rem;
+}
+@media (min-width: 640px) {
+  .resume-firebase-detail {
+    font-size: 1.08rem;
+  }
 }

@@ -1,11 +1,40 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import "./firebase-style.css";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ResumePage() {
+  const [hasToken, setHasToken] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    const token =
+      typeof window !== "undefined" && localStorage.getItem("auth_token");
+    setHasToken(!!token);
+    if (!token) {
+      router.replace("/authentication");
+    }
+  }, [router]);
+
+  if (!hasToken) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fffbe7]">
+        <div className="text-2xl font-bold text-[#ffa000]">No information</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
       <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-[#ffe082] p-0 overflow-hidden">
-        <div className="flex flex-col items-center py-8 px-6 bg-[#ffcb2b]">
+        <div className="flex flex-col items-center py-8 px-6 bg-[#ffcb2b] relative">
+          <Link
+            href="/"
+            className="absolute left-4 top-4 bg-white text-[#ffa000] border border-[#ffe082] rounded-full px-4 py-1 text-sm font-semibold shadow hover:bg-[#fffbe7] transition-colors"
+          >
+            ← Back
+          </Link>
           <div className="relative w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full overflow-hidden mb-3 border-4 border-white shadow-lg flex items-center justify-center">
             <Image
               src="/thitirat.jpg"
@@ -34,7 +63,7 @@ export default function ResumePage() {
           <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
             Work Experience
           </h2>
-          <ul className="list-disc list-inside space-y-1 text-[#22242a]">
+          <ul className="list-disc list-inside space-y-1 text-[#22242a] resume-firebase-detail">
             <li>
               <span className="font-bold">Orcsoft</span> - Frontend developer (5
               years) onsite at True and Dtac
@@ -58,7 +87,7 @@ export default function ResumePage() {
           <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
             Education
           </h2>
-          <p className="text-[#22242a]">
+          <p className="text-[#22242a] resume-firebase-detail">
             Thammasat University, Major in Computer Science
           </p>
         </section>
@@ -67,7 +96,7 @@ export default function ResumePage() {
           <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
             Technical Skills
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 resume-firebase-detail">
             <span className="resume-firebase-chip">Javascript</span>
             <span className="resume-firebase-chip">Next.js</span>
             <span className="resume-firebase-chip">AngularJS</span>
@@ -79,7 +108,7 @@ export default function ResumePage() {
           <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
             Languages
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 resume-firebase-detail">
             <span className="resume-firebase-chip">Thai (Native)</span>
             <span className="resume-firebase-chip">
               English (Limited working proficiency)

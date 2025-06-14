@@ -1,10 +1,13 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [hasToken, setHasToken] = useState(false);
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // ปิดเมนูเมื่อคลิกนอก navigation
   useEffect(() => {
@@ -18,8 +21,29 @@ export default function Home() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      router.replace("/authentication");
+    } else {
+      setHasToken(true);
+    }
+  }, [router]);
+
+  if (!hasToken) return null;
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      {/* Logout button */}
+      <button
+        className="fixed top-6 right-6 z-50 bg-[#ffcb2b] text-[#22242a] font-semibold px-4 py-2 rounded shadow hover:bg-[#ffe082] transition-colors"
+        onClick={() => {
+          localStorage.removeItem("auth_token");
+          window.location.href = "/authentication";
+        }}
+      >
+        Log out
+      </button>
       {/* Burger menu button */}
       <button
         className="fixed top-6 left-6 z-50 flex flex-col gap-1.5 w-10 h-10 justify-center items-center bg-white/80 dark:bg-black/40 rounded shadow-md"
