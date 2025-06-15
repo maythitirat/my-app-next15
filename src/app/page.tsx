@@ -1,15 +1,13 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useAuthToken, useUserInfo } from "./_logic/useAuth";
 
 export default function Home() {
-  const [hasToken, setHasToken] = useState(false);
+  const hasToken = useAuthToken();
+  const { ip, name } = useUserInfo();
   const [open, setOpen] = useState(false);
-  const [ip, setIp] = useState("");
-  const [name, setName] = useState("");
   const navRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   // ปิดเมนูเมื่อคลิกนอก navigation
   useEffect(() => {
@@ -22,25 +20,6 @@ export default function Home() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-    if (!token) {
-      router.replace("/authentication");
-    } else {
-      setHasToken(true);
-    }
-  }, [router]);
-
-  useEffect(() => {
-    // ดึง IP
-    fetch("/api/get-ip")
-      .then((res) => res.json())
-      .then((data) => setIp(data.ip || ""));
-    // ดึงชื่อจาก localStorage (ถ้าเก็บไว้ตอน login)
-    const n = localStorage.getItem("auth_name");
-    setName(n || "");
-  }, []);
 
   if (!hasToken) return null;
 

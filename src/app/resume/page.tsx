@@ -1,22 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import "./firebase-style.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useResumeAuth } from "../_logic/useResumeAuth";
 
 export default function ResumePage() {
-  const [hasToken, setHasToken] = useState(false);
-  const router = useRouter();
-  useEffect(() => {
-    const token =
-      typeof window !== "undefined" && localStorage.getItem("auth_token");
-    setHasToken(!!token);
-    if (!token) {
-      router.replace("/authentication");
-    }
-  }, [router]);
-
+  const hasToken = useResumeAuth();
   if (!hasToken) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fffbe7]">

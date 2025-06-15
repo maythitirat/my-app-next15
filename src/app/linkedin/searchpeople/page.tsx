@@ -1,4 +1,5 @@
 import { getLinkedInSearchPeople, LinkedInPerson } from "../../_utils/getLinkedInSearchPeople";
+import { useLinkedInSearchPeople } from "../../_logic/useLinkedInSearchPeople";
 import Image from 'next/image';
 import Link from "next/link";
 
@@ -9,16 +10,7 @@ export default async function SearchPeoplePage({ searchParams }: any) {
   const geoRaw = params?.geo ?? "103644278,101165590";
   const keywords = Array.isArray(keywordsRaw) ? keywordsRaw[0] : keywordsRaw;
   const geo = Array.isArray(geoRaw) ? geoRaw[0] : geoRaw;
-  let people: LinkedInPerson[] = [];
-  let total = 0;
-  let error = "";
-  try {
-    const res = await getLinkedInSearchPeople({ keywords, geo });
-    people = res.data.items;
-    total = res.data.total;
-  } catch (e) {
-    error = (e as Error).message || "Error fetching people";
-  }
+  const { people, total, error, loading } = useLinkedInSearchPeople(keywords, geo);
 
   return (
     <main style={{ maxWidth: 700, margin: "0 auto", padding: 24, position: "relative" }}>

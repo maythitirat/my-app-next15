@@ -1,16 +1,9 @@
 "use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import AuthForm from "../AuthForm";
+import { useRedirectIfToken } from "../_logic/useAuthRedirect";
 
 export default function AuthPage() {
-  const router = useRouter();
-  useEffect(() => {
-    const token = typeof window !== "undefined" && localStorage.getItem("auth_token");
-    if (token) {
-      router.replace("/");
-    }
-  }, [router]);
+  useRedirectIfToken();
 
   // เมื่อ login สำเร็จ ให้ set token แล้ว redirect ไปหน้า home
   const handleAuth = () => {

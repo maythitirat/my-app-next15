@@ -1,22 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useEffect, useState } from "react";
+import { useLinkedInCompanyPosts } from "../_logic/useLinkedInCompanyPosts";
 import Image from "next/image";
-import type { LinkedInCompanyPost } from "../_utils/getLinkedInCompanyPosts";
 import Link from "next/link";
 
 export default function LinkedinPage() {
-  const [posts, setPosts] = useState<LinkedInCompanyPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/linkedin/company-posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data.data || []))
-      .catch((e) => setError(e.message || "Error fetching posts"))
-      .finally(() => setLoading(false));
-  }, []);
+  const { posts, loading, error } = useLinkedInCompanyPosts();
 
   return (
     <main className="flex flex-col gap-8 items-center sm:items-start p-8 relative">

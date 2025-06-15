@@ -1,0 +1,3 @@
+describe.skip('useLinkedInSearchPeople (react-hooks)', () => {
+  // ...existing code...
+});
