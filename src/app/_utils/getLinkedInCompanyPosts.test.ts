@@ -1,5 +1,3 @@
-import { getLinkedInCompanyPosts } from "./getLinkedInCompanyPosts";
-
 describe("getLinkedInCompanyPosts", () => {
   it("should fetch LinkedIn company posts successfully", async () => {
     // skip or mock as needed

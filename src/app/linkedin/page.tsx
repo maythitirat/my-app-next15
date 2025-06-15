@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useLinkedInCompanyPosts } from "../_logic/useLinkedInCompanyPosts";
 import Image from "next/image";

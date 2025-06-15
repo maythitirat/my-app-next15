@@ -1,5 +1,3 @@
-import { getLinkedInSearchPeople } from "./getLinkedInSearchPeople";
-
 describe("getLinkedInSearchPeople", () => {
   it("fetches people from LinkedIn API and returns data", async () => {
     expect(true).toBe(true);
