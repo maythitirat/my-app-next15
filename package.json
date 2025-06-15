@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "build:swc": "[ -f babel.config.js ] && mv babel.config.js babel.config.js.bak; next build; [ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js",
+    "test:babel": "[ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js; jest --passWithNoTests; [ -f babel.config.js ] && mv babel.config.js babel.config.js.bak",
+    "ci": "npm run build:swc && npm run test:babel"
   },
   "dependencies": {
     "next": "15.3.3",
@@ -26,7 +29,6 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/testing-library__jest-dom": "^6.0.0",
     "babel-jest": "^30.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
