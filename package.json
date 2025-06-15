@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --passWithNoTests",
+    "test": "[ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js; jest --passWithNoTests; [ -f babel.config.js ] && mv babel.config.js babel.config.js.bak",
     "build:swc": "[ -f babel.config.js ] && mv babel.config.js babel.config.js.bak; next build; [ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js",
     "test:babel": "[ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js; jest --passWithNoTests; [ -f babel.config.js ] && mv babel.config.js babel.config.js.bak",
     "ci": "npm run build:swc && npm run test:babel"
