@@ -1,28 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import type { Resume } from "../api/resumes/response.dto";
+import { useResumeContext } from "@/app/_logic/ResumeContext";
 
 export default function ResumeListPage() {
-  const [resumes, setResumes] = useState<Resume[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("/api/resumes")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch resumes");
-        return res.json();
-      })
-      .then((data: Resume[]) => {
-        setResumes(data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(e.message || "Error fetching resumes");
-        setLoading(false);
-      });
-  }, []);
+  const { resumes, loading, error } = useResumeContext();
 
   if (loading) {
     return (

@@ -1,35 +1,24 @@
-"use client";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import type { Resume } from "../../api/resumes/response.dto";
 import { getResumePageDataFromList } from "@/app/_utils/getResumePageData";
-import { useResumeContext } from "@/app/_logic/ResumeContext";
-import React from "react";
 import { formatDate, getYearDiff } from "@/app/_utils/resumeFormatUtils";
+import BackButton from "@/app/components/BackButton";
+import { fetchAllResumesSSR } from "@/app/_utils/fetchAllResumesSSR";
 
-export default function ResumeNamePage({ params }: { params: Promise<{ name: string }> }) {
-  const { resumes, loading, error } = useResumeContext();
-  const { name } = React.use(params);
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#fffbe7]">Loading...</div>;
-  if (error) return <div className="min-h-screen flex items-center justify-center bg-[#fffbe7] text-red-500">{error}</div>;
-
+// Hybrid: SSR for SEO, client cache for navigation
+export default async function ResumeNamePage({ params }: { params: Promise<{ name: string }> }) {
+  const { name } = await params;
+  // SSR: fetch resumes on server for SEO (แยก logic ออกไปไฟล์อื่น)
+  const resumes: Resume[] = await fetchAllResumesSSR();
   const resumeDetail: Resume | null = getResumePageDataFromList(name, resumes);
-  if (!resumeDetail) {
-    console.error("Resume not found for name:", name);
-    return notFound();
-  }
+  if (!resumeDetail) return notFound();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
       <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-[#ffe082] p-0 overflow-hidden">
         <div className="flex flex-col items-center py-8 px-6 bg-[#ffcb2b] relative">
-          <Link
-            href="/"
-            className="absolute left-4 top-4 bg-white text-[#ffa000] border border-[#ffe082] rounded-full px-4 py-1 text-sm font-semibold shadow hover:bg-[#fffbe7] transition-colors"
-          >
-            ← Back
-          </Link>
+          <BackButton />
           <div className="relative w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full overflow-hidden mb-3 border-4 border-white shadow-lg flex items-center justify-center">
             <Image
               src={resumeDetail.id === 1 ? "/thitirat.jpg" : "/file.svg"}
