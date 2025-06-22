@@ -7,7 +7,7 @@ export function useLinkedInCompanyPosts() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com/api/linkedin/company-posts")
+    fetch("/api/linkedin/company-posts")
       .then((res) => res.json())
       .then((data) => setPosts(data.data || []))
       .catch((e) => setError(e.message || "Error fetching posts"))

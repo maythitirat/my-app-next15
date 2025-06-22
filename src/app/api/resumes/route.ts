@@ -1,8 +1,7 @@
-import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
-  const apiRes = await fetch('https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com/resume', {
+export async function GET() {
+  const apiRes = await fetch(`${process.env.API_BASE_URL}/resume`, {
     headers: { 'Content-Type': 'application/json' },
     cache: 'no-store',
   });

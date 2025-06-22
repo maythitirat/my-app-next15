@@ -5,7 +5,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const { id } = params;
   
   try {
-    const apiRes = await fetch(`https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com/resume/${id}`, {
+    const apiRes = await fetch(`${process.env.API_BASE_URL}/resume/${id}`, {
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     });

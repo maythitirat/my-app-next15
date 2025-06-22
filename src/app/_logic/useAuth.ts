@@ -22,7 +22,7 @@ export function useUserInfo() {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    fetch("https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com/api/get-ip")
+    fetch("/api/get-ip")
       .then((res) => res.json())
       .then((data) => setIp(data.ip || ""));
     const n = localStorage.getItem("auth_name");
