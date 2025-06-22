@@ -1,8 +1,11 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(
+  req: NextRequest, 
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   
   try {
     const apiRes = await fetch(`${process.env.API_BASE_URL}/resume/${id}`, {

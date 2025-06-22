@@ -3,18 +3,55 @@ import Image from "next/image";
 import type { Resume } from "../../api/resumes/response.dto";
 import { formatDate, getYearDiff } from "@/app/_utils/resumeFormatUtils";
 import BackButton from "@/app/components/BackButton";
-import { fetchResumeByIdSSR } from "@/app/_utils/fetchResumeByIdSSR";
+import { getCachedResumeById } from "@/app/_utils/cachedResumes";
+import { Metadata } from 'next';
 
-// SSR for SEO - fetch resume detail by id directly
+// Next.js 15 - Dynamic Metadata for SEO
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}): Promise<Metadata> {
+  const { id } = await params;
+  
+  try {
+    const resume = await getCachedResumeById(id);
+    
+    return {
+      title: `${resume.full_name} - Resume`,
+      description: resume.summary,
+      keywords: [
+        resume.full_name,
+        'resume',
+        'profile',
+        ...(resume.skills || [])
+      ].join(', '),
+      openGraph: {
+        title: `${resume.full_name} - Resume`,
+        description: resume.summary,
+        type: 'profile',
+      },
+    };
+  } catch {
+    return {
+      title: 'Resume Not Found',
+      description: 'The requested resume could not be found.',
+    };
+  }
+}
+
+// Next.js 15 - Enhanced SSR with caching
 export default async function ResumeIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const resumeId = parseInt(id);
   
   if (isNaN(resumeId)) return notFound();
   
-  // SSR: fetch resume detail ด้วย id จาก resumebyid API (เรียกครั้งเดียว)
-  const resumeDetail: Resume | null = await fetchResumeByIdSSR(resumeId);
-  if (!resumeDetail) return notFound();
+  // Next.js 15: Use cached fetch for better performance
+  try {
+    const resumeDetail: Resume = await getCachedResumeById(id);
+    
+    if (!resumeDetail) return notFound();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
@@ -93,4 +130,8 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
       </div>
     </div>
   );
+  } catch (error) {
+    console.error('Error fetching resume:', error);
+    return notFound();
+  }
 }

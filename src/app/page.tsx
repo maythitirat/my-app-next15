@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useAuthToken, useUserInfo } from "./_logic/useAuth";
 
 export default function Home() {
@@ -75,13 +76,27 @@ export default function Home() {
           >
             LinkedIn: Search People
           </a>
-          <a
+          <Link
             href="/resume"
             className="text-lg font-semibold text-blue-700 hover:underline"
             onClick={() => setOpen(false)}
           >
-            Resume
+            Resume Management
+          </Link>
+          <a
+            href="/search"
+            className="text-lg font-semibold text-green-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            🔍 Search Resumes
           </a>
+          <Link
+            href="/resume/create"
+            className="text-lg font-semibold text-purple-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            ➕ Create Resume
+          </Link>
         </div>
       </nav>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
