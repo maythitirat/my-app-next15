@@ -26,13 +26,12 @@ export default function ResumeListPage() {
         <h1 className="text-2xl font-bold mb-6 text-[#ffa000]">Resume List</h1>
         <ul className="space-y-4">
           {resumes.map((resume) => {
-            const namePath = resume.full_name.split(" ")[0].toLowerCase();
             return (
               <li key={resume.id} className="border-b pb-4">
                 <div className="font-bold text-lg">{resume.full_name}</div>
                 <div className="text-sm text-gray-600 mb-2">{resume.summary}</div>
                 <Link
-                  href={`/resume/${namePath}`}
+                  href={`/resume/${resume.id}`}
                   className="text-blue-600 underline text-sm"
                 >
                   View Resume

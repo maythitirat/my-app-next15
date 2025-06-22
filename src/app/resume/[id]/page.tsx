@@ -1,17 +1,19 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Resume } from "../../api/resumes/response.dto";
-import { getResumePageDataFromList } from "@/app/_utils/getResumePageData";
 import { formatDate, getYearDiff } from "@/app/_utils/resumeFormatUtils";
 import BackButton from "@/app/components/BackButton";
-import { fetchAllResumesSSR } from "@/app/_utils/fetchAllResumesSSR";
+import { fetchResumeByIdSSR } from "@/app/_utils/fetchResumeByIdSSR";
 
-// Hybrid: SSR for SEO, client cache for navigation
-export default async function ResumeNamePage({ params }: { params: Promise<{ name: string }> }) {
-  const { name } = await params;
-  // SSR: fetch resumes on server for SEO (แยก logic ออกไปไฟล์อื่น)
-  const resumes: Resume[] = await fetchAllResumesSSR();
-  const resumeDetail: Resume | null = getResumePageDataFromList(name, resumes);
+// SSR for SEO - fetch resume detail by id directly
+export default async function ResumeIdPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const resumeId = parseInt(id);
+  
+  if (isNaN(resumeId)) return notFound();
+  
+  // SSR: fetch resume detail ด้วย id จาก resumebyid API (เรียกครั้งเดียว)
+  const resumeDetail: Resume | null = await fetchResumeByIdSSR(resumeId);
   if (!resumeDetail) return notFound();
 
   return (
