@@ -1,21 +1,22 @@
-import type { NextAuthConfig } from 'next-auth'
-
 export const authConfig = {
   pages: {
-    signIn: '/login',
+    signIn: '/authentication',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    authorized({ auth, request: { nextUrl } }: any) {
       const isLoggedIn = !!auth?.user
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
-      if (isOnDashboard) {
+      const isOnProtectedRoute = nextUrl.pathname.startsWith('/resume') || 
+                                nextUrl.pathname.startsWith('/linkedin')
+      
+      if (isOnProtectedRoute) {
         if (isLoggedIn) return true
         return false // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl))
+      } else if (isLoggedIn && nextUrl.pathname === '/authentication') {
+        return Response.redirect(new URL('/', nextUrl))
       }
       return true
     },
   },
   providers: [], // Add providers with an empty array for now
-} satisfies NextAuthConfig
+}

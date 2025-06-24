@@ -6,7 +6,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - **Resume Management**: Create, view, update, and delete resumes
 - **LinkedIn Integration**: Company posts and people search
-- **Bitcoin Price**: Real-time Bitcoin price tracking
 - **Next.js 15 Features**: Server Actions, Suspense, Streaming, Enhanced Caching
 - **API Integration**: AWS API Gateway integration
 
@@ -82,7 +81,7 @@ npm run dev
 - `/resume/[id]` - View specific resume
 - `/linkedin` - LinkedIn company posts
 - `/linkedin/searchpeople` - Search LinkedIn people
-- `/bitcoin` - Bitcoin price tracker
+- `/authentication` - User authentication
 - `/search` - Search resumes
 
 ## Technologies Used
