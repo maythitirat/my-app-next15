@@ -97,20 +97,48 @@ export async function DELETE(
     });
 
     if (!apiRes.ok) {
+      // Handle different error cases
+      if (apiRes.status === 404) {
+        return NextResponse.json(
+          { 
+            message: `Resume with ID ${id} not found or could not be deleted`,
+            error: 'Not Found',
+            statusCode: 404
+          },
+          { status: 404 }
+        );
+      }
+      
+      // Other errors
       const errorText = await apiRes.text();
       console.error('API Error:', errorText);
       return NextResponse.json(
-        { error: 'Failed to delete resume' },
+        { 
+          message: `Failed to delete resume with ID ${id}`,
+          error: 'Internal Server Error',
+          statusCode: apiRes.status
+        },
         { status: apiRes.status }
       );
     }
 
-    return NextResponse.json({ message: 'Resume deleted successfully' }, { status: 200 });
+    // Success case
+    return NextResponse.json(
+      { 
+        message: `Resume with ID ${id} has been successfully deleted`,
+        deleted: true
+      }, 
+      { status: 200 }
+    );
     
   } catch (error) {
     console.error('Server Error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        message: `Failed to delete resume with ID ${id}`,
+        error: 'Internal Server Error',
+        statusCode: 500
+      },
       { status: 500 }
     );
   }

@@ -38,12 +38,21 @@ export function ResumeProvider({ children }: { children: ReactNode }) {
         method: 'DELETE',
       });
       
+      const data = await res.json();
+      
       if (!res.ok) {
-        throw new Error('Failed to delete resume');
+        // Use the error message from API response
+        throw new Error(data.message || 'Failed to delete resume');
       }
       
-      // Remove the deleted resume from state
-      setResumes(prev => prev.filter(resume => resume.id !== id));
+      // Check if deletion was successful
+      if (data.deleted) {
+        // Remove the deleted resume from state
+        setResumes(prev => prev.filter(resume => resume.id !== id));
+      } else {
+        throw new Error(data.message || 'Resume deletion was not confirmed');
+      }
+      
     } catch (e) {
       throw new Error(e instanceof Error ? e.message : 'Error deleting resume');
     }

@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function ResumeListPage() {
   const { resumes, loading, error, deleteResume } = useResumeContext();
   const [deleting, setDeleting] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string>("");
 
   const handleDelete = async (id: number, fullName: string) => {
     if (!confirm(`Are you sure you want to delete the resume for "${fullName}"?`)) {
@@ -14,9 +15,13 @@ export default function ResumeListPage() {
 
     try {
       setDeleting(id);
+      setDeleteError("");
       await deleteResume(id);
+      // Success message could be added here if needed
+      console.log(`Resume for ${fullName} deleted successfully`);
     } catch (error) {
-      alert(`Failed to delete resume: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setDeleteError(`Failed to delete resume for ${fullName}: ${errorMessage}`);
     } finally {
       setDeleting(null);
     }
@@ -49,6 +54,23 @@ export default function ResumeListPage() {
             Create New Resume
           </Link>
         </div>
+        
+        {/* Error Message */}
+        {deleteError && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <div className="flex items-center">
+              <span className="font-medium">Error:</span>
+              <span className="ml-2">{deleteError}</span>
+              <button
+                onClick={() => setDeleteError("")}
+                className="ml-auto text-red-500 hover:text-red-700"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+        
         {resumes.length === 0 ? (
           <div className="text-center py-8">
             <p className="text-gray-600 mb-4">No resumes found.</p>
