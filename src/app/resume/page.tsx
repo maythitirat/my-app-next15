@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useResumeContext } from "@/app/_logic/ResumeContext";
 import { useState } from "react";
+import BackToHomeButton from "@/app/components/BackToHomeButton";
 
 export default function ResumeListPage() {
   const { resumes, loading, error, deleteResume } = useResumeContext();
@@ -45,6 +46,11 @@ export default function ResumeListPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
       <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-[#ffe082] p-8">
+        {/* Back to Home Button */}
+        <div className="mb-4">
+          <BackToHomeButton />
+        </div>
+        
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-[#ffa000]">Resume List</h1>
           <Link

@@ -8,7 +8,6 @@ export default auth((req: any) => {
 
   // Define protected routes
   const isProtectedRoute = nextUrl.pathname.startsWith('/resume') ||
-                          nextUrl.pathname.startsWith('/linkedin') ||
                           nextUrl.pathname.startsWith('/search')
 
   // Redirect to authentication if not logged in and trying to access protected route

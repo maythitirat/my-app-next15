@@ -1,4 +1,5 @@
 import CreateResumeForm from '@/app/components/CreateResumeForm';
+import BackToHomeButton from '@/app/components/BackToHomeButton';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +12,11 @@ export default function CreateResumePage() {
   return (
     <div className="min-h-screen bg-[#fffbe7] py-10">
       <div className="max-w-4xl mx-auto px-4">
+        {/* Back to Home Button */}
+        <div className="mb-6">
+          <BackToHomeButton />
+        </div>
+        
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Create New Resume</h1>
           <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">

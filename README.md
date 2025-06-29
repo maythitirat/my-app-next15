@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Features
 
 - **Resume Management**: Create, view, update, and delete resumes
-- **LinkedIn Integration**: Company posts and people search
+- **User Authentication**: Secure authentication with NextAuth.js (Google, GitHub, Credentials)
 - **Next.js 15 Features**: Server Actions, Suspense, Streaming, Enhanced Caching
 - **API Integration**: AWS API Gateway integration
 
@@ -79,8 +79,6 @@ npm run dev
 - `/resume` - Resume list page
 - `/resume/create` - Create new resume
 - `/resume/[id]` - View specific resume
-- `/linkedin` - LinkedIn company posts
-- `/linkedin/searchpeople` - Search LinkedIn people
 - `/authentication` - User authentication
 - `/search` - Search resumes
 

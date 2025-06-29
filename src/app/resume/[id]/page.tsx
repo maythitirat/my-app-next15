@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Resume } from "../../api/resumes/response.dto";
 import { formatDate, getYearDiff } from "@/app/_utils/resumeFormatUtils";
-import BackButton from "@/app/components/BackButton";
+import BackToHomeButton from "@/app/components/BackToHomeButton";
 import { getCachedResumeById } from "@/app/_utils/cachedResumes";
 import { Metadata } from 'next';
 
@@ -57,7 +57,9 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
       <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-[#ffe082] p-0 overflow-hidden">
         <div className="flex flex-col items-center py-8 px-6 bg-[#ffcb2b] relative">
-          <BackButton />
+          <div className="absolute top-4 left-4">
+            <BackToHomeButton variant="link" className="text-[#22242a] hover:text-[#444]" />
+          </div>
           <div className="relative w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full overflow-hidden mb-3 border-4 border-white shadow-lg flex items-center justify-center">
             <Image
               src={resumeDetail.id === 1 ? "/thitirat.jpg" : "/file.svg"}

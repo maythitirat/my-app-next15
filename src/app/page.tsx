@@ -83,20 +83,6 @@ export default function Home() {
         aria-label="Sidebar navigation"
       >
         <div className="flex flex-col gap-6 p-8 pt-20">
-          <a
-            href="/linkedin"
-            className="text-lg font-semibold text-blue-700 hover:underline"
-            onClick={() => setOpen(false)}
-          >
-            LinkedIn: Company Posts
-          </a>
-          <a
-            href="/linkedin/searchpeople"
-            className="text-lg font-semibold text-blue-700 hover:underline"
-            onClick={() => setOpen(false)}
-          >
-            LinkedIn: Search People
-          </a>
           <Link
             href="/resume"
             className="text-lg font-semibold text-blue-700 hover:underline"

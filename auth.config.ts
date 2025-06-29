@@ -6,8 +6,8 @@ export const authConfig = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ auth, request: { nextUrl } }: any) {
       const isLoggedIn = !!auth?.user
-      const isOnProtectedRoute = nextUrl.pathname.startsWith('/resume') || 
-                                nextUrl.pathname.startsWith('/linkedin')
+      const isOnProtectedRoute = nextUrl.pathname.startsWith('/resume') ||
+                                nextUrl.pathname.startsWith('/search')
       
       if (isOnProtectedRoute) {
         if (isLoggedIn) return true
