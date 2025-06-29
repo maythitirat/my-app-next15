@@ -104,6 +104,13 @@ export default function Home() {
           >
             ➕ Create Resume
           </Link>
+          <Link
+            href="/todos"
+            className="text-lg font-semibold text-orange-700 hover:underline"
+            onClick={() => setOpen(false)}
+          >
+            📋 Todo List
+          </Link>
         </div>
       </nav>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
