@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       // ...add other domains if needed...
     ],
   },
+  // Add logging for debugging
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   // Reduce experimental features for better Vercel compatibility
   // experimental: {
   //   // Better caching (available in stable)

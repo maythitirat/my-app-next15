@@ -2,9 +2,15 @@
   "name": "my-app-next15",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:debug": "NEXT_DEBUG=1 npm run build",
+    "build:vercel": "NODE_ENV=production VERCEL=1 npm run build",
     "start": "next start",
     "lint": "next lint",
     "test": "[ -f babel.config.js.bak ] && mv babel.config.js.bak babel.config.js; jest --passWithNoTests; [ -f babel.config.js ] && mv babel.config.js babel.config.js.bak",
@@ -26,6 +32,7 @@
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.3.5",
     "@playwright/test": "^1.53.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
