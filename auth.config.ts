@@ -1,4 +1,5 @@
 export const authConfig = {
+  secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: 'jwt' as const },
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

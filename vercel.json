@@ -3,6 +3,7 @@
   "buildCommand": "npm run build",
   "env": {
     "NEXTAUTH_URL": "https://my-app-next15.vercel.app",
+    "NEXTAUTH_SECRET": "super-secret-jwt-key-for-nextauth-production-vercel-2024-secure",
     "NODE_ENV": "production",
     "API_BASE_URL": "https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com",
     "NEXT_PUBLIC_API_BASE_URL": "https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com"
