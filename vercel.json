@@ -3,7 +3,9 @@
   "buildCommand": "npm run build",
   "env": {
     "NEXTAUTH_URL": "https://my-app-next15.vercel.app",
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "API_BASE_URL": "https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com",
+    "NEXT_PUBLIC_API_BASE_URL": "https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com"
   },
   "functions": {
     "src/app/api/**/*.ts": {
