@@ -9,6 +9,14 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    console.log('🏠 Home page loaded:', {
+      hasSession: !!session,
+      sessionUser: session?.user?.email,
+      status: status
+    })
+  }, [session, status])
+
   // ปิดเมนูเมื่อคลิกนอก navigation
   useEffect(() => {
     if (!open) return;

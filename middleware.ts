@@ -1,19 +1,12 @@
-import { auth } from './auth'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default auth((req: any) => {
-  const { nextUrl } = req
-  const isLoggedIn = !!req.auth
-  const pathname = nextUrl.pathname
-  const searchParams = nextUrl.searchParams.toString()
-
-  console.log('🔧 Middleware:', {
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  
+  console.log('🔧 Simple Middleware:', {
     path: pathname,
-    search: searchParams,
-    isLoggedIn,
-    hasAuth: !!req.auth,
-    userEmail: req.auth?.user?.email,
-    fullUrl: nextUrl.href,
+    url: request.url,
   })
 
   // Define protected routes
@@ -21,23 +14,12 @@ export default auth((req: any) => {
                           pathname.startsWith('/search') ||
                           pathname.startsWith('/todos')
 
-  // Redirect to authentication if not logged in and trying to access protected route
-  if (isProtectedRoute && !isLoggedIn) {
-    console.log('🚫 Redirecting to /authentication - accessing protected route without auth')
-    return Response.redirect(new URL('/authentication', nextUrl))
-  }
-
-  // Redirect to home if logged in and trying to access authentication page
-  if (isLoggedIn && pathname === '/authentication') {
-    console.log('✅ USER IS LOGGED IN but accessing /authentication - FORCING REDIRECT TO HOME')
-    const homeUrl = new URL('/', nextUrl)
-    return Response.redirect(homeUrl)
-  }
-
-  console.log('✅ Middleware passed - no redirect needed')
-})
+  // For now, let all routes pass through
+  // We'll handle authentication in the pages themselves
+  console.log('✅ Middleware passed - allowing all routes')
+  return NextResponse.next()
+}
 
 export const config = {
-  // Match all routes except API routes, static files, and images
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

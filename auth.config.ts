@@ -1,9 +1,5 @@
 export const authConfig = {
   session: { strategy: 'jwt' as const },
-  pages: {
-    // ลบ signIn page เพื่อไม่ให้ NextAuth redirect กลับไป /authentication
-    // signIn: '/authentication',
-  },
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ auth, request: { nextUrl } }: any) {
@@ -24,13 +20,6 @@ export const authConfig = {
       }
       
       return true
-    },
-    // เพิ่ม redirect callback ใน config ด้วย
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async redirect({ url, baseUrl }: any) {
-      console.log('🟡 CONFIG REDIRECT CALLBACK:', { url, baseUrl })
-      console.log('🟡 FORCING HOME REDIRECT FROM CONFIG')
-      return baseUrl + '/'
     },
   },
   providers: [], // Add providers with an empty array for now

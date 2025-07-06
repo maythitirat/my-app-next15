@@ -1,7 +1,6 @@
 'use client'
 
-import { signIn, getSession } from 'next-auth/react'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import BackToHomeButton from "@/app/components/BackToHomeButton"
 
@@ -97,50 +96,41 @@ export default function AuthenticationPage() {
   
   // If already logged in, redirect to home immediately
   useEffect(() => {
-    if (session) {
-      console.log('👤 Session detected in /authentication, redirecting to home')
-      window.location.replace('/')
+    console.log('🔍 Authentication page session check:', {
+      hasSession: !!session,
+      sessionUser: session?.user?.email,
+      status: status
+    })
+    
+    if (session && status === 'authenticated') {
+      console.log('👤 User already logged in, redirecting to home...')
+      window.location.href = '/'
     }
-  }, [session])
+  }, [session, status])
 
   const handleDirectLogin = async () => {
-    alert('🚀 Direct Test Login clicked!')
-    console.log('🚀 DIRECT TEST LOGIN BUTTON CLICKED!')
+    console.log('🚀 DIRECT LOGIN BUTTON CLICKED!')
     
     try {
-      console.log('🔄 Testing direct signin...')
       const result = await signIn('credentials', {
         email: 'admin@example.com',
         password: 'password',
         redirect: false,
       })
       
-      console.log('📋 Direct signin result:', result)
-      console.log('📋 Direct result details:', {
-        ok: result?.ok,
-        status: result?.status,
-        error: result?.error,
-        url: result?.url
-      })
+      console.log('� DIRECT LOGIN RESULT:', result)
       
       if (result?.ok) {
-        console.log('✅ Direct login successful!')
-        alert('✅ Login successful! Refreshing session...')
-        
-        // Refresh session เพื่อให้ middleware ตรวจจับได้
-        await getSession()
-        await new Promise(resolve => setTimeout(resolve, 200))
-        
-        console.log('🔄 Session refreshed, now redirecting...')
-        alert('🔄 Redirecting to home...')
-        window.location.replace('/')
+        console.log('✅ DIRECT LOGIN SUCCESS - redirecting to home')
+        window.location.href = '/'
       } else {
-        console.error('❌ Direct login failed:', result?.error)
-        alert('❌ Login failed: ' + (result?.error || 'Unknown error'))
+        console.log('❌ DIRECT LOGIN FAILED:', result?.error)
+        alert('Direct login failed: ' + (result?.error || 'Unknown error'))
       }
+      
     } catch (error) {
-      console.error('💥 Direct signin error:', error)
-      alert('💥 Error: ' + error)
+      console.error('💥 DIRECT LOGIN ERROR:', error)
+      alert('Direct login error: ' + error)
     }
   }
 
@@ -200,31 +190,28 @@ export default function AuthenticationPage() {
             const email = formData.get('email') as string
             const password = formData.get('password') as string
             
-            console.log('Attempting to sign in with:', { email, password })
+            console.log('🚀 FORM SUBMIT:', { email, password })
             
             try {
-              console.log('🔄 Form signin attempt...')
               const result = await signIn('credentials', {
                 email,
                 password,
                 redirect: false,
               })
               
-              console.log('📋 Form signin result:', result)
+              console.log('🚀 SIGNIN RESULT:', result)
               
               if (result?.ok) {
-                console.log('✅ Login successful, refreshing session and redirecting to home')
-                await getSession()
-                await new Promise(resolve => setTimeout(resolve, 200))
-                console.log('🔄 Session refreshed, now redirecting...')
-                window.location.replace('/')
+                console.log('✅ LOGIN SUCCESS - redirecting to home')
+                window.location.href = '/'
               } else {
-                console.error('❌ Login failed:', result?.error)
-                alert('เข้าสู่ระบบไม่สำเร็จ: ' + (result?.error || 'Unknown error'))
+                console.log('❌ LOGIN FAILED:', result?.error)
+                alert('Login failed: ' + (result?.error || 'Unknown error'))
               }
+              
             } catch (error) {
-              console.error('💥 Form signin error:', error)
-              alert('เกิดข้อผิดพลาดในการเข้าสู่ระบบ: ' + error)
+              console.error('💥 LOGIN ERROR:', error)
+              alert('Error: ' + error)
             }
           }}>
             <div>
