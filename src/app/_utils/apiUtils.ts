@@ -4,7 +4,7 @@ export function getApiBaseUrl(): string {
   
   if (!baseUrl) {
     console.warn('API_BASE_URL not found, using fallback');
-    return 'https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com';
+    return 'https://myapp.maythitirat.com';
   }
   
   return baseUrl;

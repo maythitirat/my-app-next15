@@ -58,7 +58,7 @@ DELETE /api/resumes/[id]
 
 1. Copy `.env.local.example` to `.env.local` and configure your environment variables:
 ```bash
-API_BASE_URL=https://m23bxip04j.execute-api.ap-southeast-1.amazonaws.com
+API_BASE_URL=https://myapp.maythitirat.com
 ```
 
 2. Install dependencies:
