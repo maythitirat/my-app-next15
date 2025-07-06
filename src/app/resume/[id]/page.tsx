@@ -54,11 +54,11 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
     if (!resumeDetail) return notFound();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-[#fffbe7]">
-      <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-[#ffe082] p-0 overflow-hidden">
-        <div className="flex flex-col items-center py-8 px-6 bg-[#ffcb2b] relative">
+    <div className="min-h-screen flex flex-col items-center justify-center py-10 px-2 bg-gray-50">
+      <div className="w-full max-w-2xl rounded-2xl shadow-lg bg-white border border-gray-200 p-0 overflow-hidden">
+        <div className="flex flex-col items-center py-8 px-6 bg-gray-900 relative">
           <div className="absolute top-4 left-4">
-            <BackToHomeButton variant="link" className="text-[#22242a] hover:text-[#444]" />
+            <BackToHomeButton variant="link" className="text-white hover:text-gray-300" />
           </div>
           <div className="relative w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] rounded-full overflow-hidden mb-3 border-4 border-white shadow-lg flex items-center justify-center">
             <Image
@@ -70,26 +70,26 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
               priority
             />
           </div>
-          <h1 className="text-3xl font-bold text-[#22242a] mb-1">
+          <h1 className="text-3xl font-bold text-white mb-1">
             {resumeDetail.full_name}
           </h1>
-          <span className="inline-block bg-white text-[#ffa000] font-semibold rounded-full px-4 py-1 text-base mb-2 shadow-sm">
+          <span className="inline-block bg-white text-gray-900 font-semibold rounded-full px-4 py-1 text-base mb-2 shadow-sm">
             {resumeDetail.summary}
           </span>
           <a
             href={`mailto:${resumeDetail.email}`}
-            className="text-[#22242a] hover:underline mb-1 font-medium"
+            className="text-white hover:underline mb-1 font-medium"
           >
             {resumeDetail.email}
           </a>
-          <div className="text-[#22242a] text-sm mb-1">{resumeDetail.phone}</div>
+          <div className="text-white text-sm mb-1">{resumeDetail.phone}</div>
         </div>
 
-        <section className="px-8 py-6 border-b border-[#ffe082]">
-          <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
+        <section className="px-8 py-6 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 tracking-wide">
             Work Experience
           </h2>
-          <ul className="list-disc list-inside space-y-1 text-[#22242a] resume-firebase-detail">
+          <ul className="list-disc list-inside space-y-1 text-gray-800 resume-firebase-detail">
             {resumeDetail.experiences.map((exp) => (
               <li key={exp.id}>
                 <span className="font-bold">{exp.company_name}</span> {exp.job_title} ({getYearDiff(exp.start_date, exp.end_date)} years)
@@ -99,8 +99,8 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
           </ul>
         </section>
 
-        <section className="px-8 py-6 border-b border-[#ffe082]">
-          <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
+        <section className="px-8 py-6 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 tracking-wide">
             Education
           </h2>
           {resumeDetail.educations.map((edu) => (
@@ -117,8 +117,8 @@ export default async function ResumeIdPage({ params }: { params: Promise<{ id: s
           ))}
         </section>
 
-        <section className="px-8 py-6 border-b border-[#ffe082]">
-          <h2 className="text-lg font-semibold text-[#ffa000] mb-3 tracking-wide">
+        <section className="px-8 py-6 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 mb-3 tracking-wide">
             Technical Skills
           </h2>
           <div className="flex flex-wrap gap-2 resume-firebase-detail">

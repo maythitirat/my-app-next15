@@ -28,8 +28,8 @@ export default function AuthForm({ onAuth }: { onAuth: () => void }) {
         onChange={e => setName(e.target.value)}
         className="border px-3 py-2 rounded w-full"
       />
-      {error && <div className="text-red-500 text-sm">{error}</div>}
-      <button type="submit" className="bg-[#ffcb2b] text-[#22242a] font-semibold px-4 py-2 rounded w-full hover:bg-[#ffe082] transition-colors">Sign in</button>
+      {error && <div className="text-gray-600 text-sm">{error}</div>}
+      <button type="submit" className="bg-gray-900 text-white font-semibold px-4 py-2 rounded w-full hover:bg-gray-700 transition-colors">Sign in</button>
     </form>
   );
 }

@@ -1,294 +1,176 @@
 'use client'
 
-import { signIn, useSession } from 'next-auth/react'
-import { useEffect, useState } from 'react'
-import BackToHomeButton from "@/app/components/BackToHomeButton"
-
-// Component สำหรับเช็คว่า OAuth providers พร้อมใช้งานหรือไม่
-function AuthProviders() {
-  const [providers, setProviders] = useState({
-    google: false,
-    github: false,
-    loading: true
-  })
-
-  useEffect(() => {
-    // เรียก API เพื่อเช็คว่า provider ไหนพร้อมใช้งาน
-    fetch('/api/auth/providers')
-      .then(res => res.json())
-      .then(data => {
-        setProviders({
-          google: !!data.google,
-          github: !!data.github,
-          loading: false
-        })
-      })
-      .catch(() => {
-        setProviders({
-          google: false,
-          github: false,
-          loading: false
-        })
-      })
-  }, [])
-
-  if (providers.loading) {
-    return (
-      <div className="space-y-4">
-        <div className="animate-pulse bg-gray-200 h-12 rounded-lg"></div>
-        <div className="animate-pulse bg-gray-200 h-12 rounded-lg"></div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-4">
-      {/* แสดงข้อความแจ้งเตือนถ้าไม่มี OAuth credentials */}
-      {!providers.google && !providers.github && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-          <div className="flex">
-            <svg className="w-5 h-5 text-yellow-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
-            </svg>
-            <div>
-              <p className="text-sm text-yellow-800">
-                <strong>OAuth ยังไม่ได้ตั้งค่า:</strong> ดู <code className="bg-yellow-100 px-1 rounded">OAUTH_SETUP.md</code> เพื่อตั้งค่า Google/GitHub login
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Google Sign In - แสดงเฉพาะเมื่อมี credentials */}
-      {providers.google && (
-        <button
-          onClick={() => signIn('google')}
-          className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-          Continue with Google
-        </button>
-      )}
-
-      {/* GitHub Sign In - แสดงเฉพาะเมื่อมี credentials */}
-      {providers.github && (
-        <button
-          onClick={() => signIn('github')}
-          className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
-        >
-          <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd"/>
-          </svg>
-          Continue with GitHub
-        </button>
-      )}
-    </div>
-  )
-}
+import { useState, useEffect } from 'react'
+import { signIn, getSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function AuthenticationPage() {
-  const { data: session, status } = useSession()
-  
-  // If already logged in, redirect to home immediately
-  useEffect(() => {
-    console.log('🔍 Authentication page session check:', {
-      hasSession: !!session,
-      sessionUser: session?.user?.email,
-      status: status
-    })
-    
-    if (session && status === 'authenticated') {
-      console.log('👤 User already logged in, redirecting to home...')
-      window.location.href = '/'
-    }
-  }, [session, status])
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const router = useRouter()
 
-  const handleDirectLogin = async () => {
-    console.log('🚀 DIRECT LOGIN BUTTON CLICKED!')
-    
+  // Check if user is already authenticated
+  useEffect(() => {
+    async function checkAuth() {
+      const session = await getSession()
+      if (session) {
+        router.push('/')
+      }
+    }
+    checkAuth()
+  }, [router])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    setSuccess('')
+
     try {
+      console.log('🔐 Attempting sign in with:', { email })
+      
       const result = await signIn('credentials', {
-        email: 'admin@example.com',
-        password: 'password',
+        email,
+        password,
         redirect: false,
       })
-      
-      console.log('� DIRECT LOGIN RESULT:', result)
-      
-      if (result?.ok) {
-        console.log('✅ DIRECT LOGIN SUCCESS - redirecting to home')
-        window.location.href = '/'
-      } else {
-        console.log('❌ DIRECT LOGIN FAILED:', result?.error)
-        alert('Direct login failed: ' + (result?.error || 'Unknown error'))
+
+      console.log('🔐 Sign in result:', result)
+
+      if (result?.error) {
+        setError(result.error === 'CredentialsSignin' 
+          ? 'Invalid email or password. Please try again.' 
+          : result.error)
+      } else if (result?.ok) {
+        setSuccess('Successfully signed in! Redirecting...')
+        
+        // Manual redirect after successful login
+        setTimeout(() => {
+          router.push('/')
+          router.refresh()
+        }, 1500)
       }
-      
     } catch (error) {
-      console.error('💥 DIRECT LOGIN ERROR:', error)
-      alert('Direct login error: ' + error)
+      console.error('🔐 Sign in error:', error)
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
-  }
-
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-amber-600"></div>
-      </div>
-    )
-  }
-
-  if (session) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Redirecting to home...</p>
-        </div>
-      </div>
-    )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-black dark:to-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Back to Home Button */}
-        <div className="text-left">
-          <BackToHomeButton variant="link" className="text-gray-600 hover:text-gray-800" />
-        </div>
-        
-        <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-            Welcome Back!
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Sign in to access your resume management dashboard
-          </p>
-        </div>
-        
-        <div className="mt-8 space-y-4">
-          {/* OAuth Providers */}
-          <AuthProviders />
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gradient-to-br from-yellow-50 to-amber-100 text-gray-500">Or continue with email</span>
-            </div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              🔐 Sign In
+            </h2>
+            <p className="mt-2 text-gray-600 dark:text-gray-300">
+              Please enter your credentials to continue
+            </p>
           </div>
 
-          {/* Credentials Sign In Form */}
-          <form onSubmit={async (e) => {
-            e.preventDefault()
-            const formData = new FormData(e.currentTarget)
-            const email = formData.get('email') as string
-            const password = formData.get('password') as string
-            
-            console.log('🚀 FORM SUBMIT:', { email, password })
-            
-            try {
-              const result = await signIn('credentials', {
-                email,
-                password,
-                redirect: false,
-              })
-              
-              console.log('🚀 SIGNIN RESULT:', result)
-              
-              if (result?.ok) {
-                console.log('✅ LOGIN SUCCESS - redirecting to home')
-                window.location.href = '/'
-              } else {
-                console.log('❌ LOGIN FAILED:', result?.error)
-                alert('Login failed: ' + (result?.error || 'Unknown error'))
-              }
-              
-            } catch (error) {
-              console.error('💥 LOGIN ERROR:', error)
-              alert('Error: ' + error)
-            }
-          }}>
+          {/* Error Alert */}
+          {error && (
+            <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-lg">
+              <div className="flex items-center">
+                <span className="text-xl mr-2">⚠️</span>
+                <div>
+                  <strong className="font-medium">Authentication Error</strong>
+                  <p className="text-sm mt-1">{error}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Success Alert */}
+          {success && (
+            <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-lg">
+              <div className="flex items-center">
+                <span className="text-xl mr-2">✅</span>
+                <div>
+                  <strong className="font-medium">Success!</strong>
+                  <p className="text-sm mt-1">{success}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Sign In Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Email Address
               </label>
               <input
                 id="email"
-                name="email"
                 type="email"
-                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="admin@example.com"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                placeholder="Enter your email"
+                disabled={isLoading}
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
               </label>
               <input
                 id="password"
-                name="password"
                 type="password"
-                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
-                placeholder="password"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                placeholder="Enter your password"
+                disabled={isLoading}
               />
             </div>
+
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors"
+              disabled={isLoading}
+              className="w-full bg-gray-900 dark:bg-gray-700 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              Sign in with credentials
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Signing in...
+                </div>
+              ) : (
+                'Sign In'
+              )}
             </button>
           </form>
 
-          <div className="text-center text-sm text-gray-600 bg-amber-50 p-3 rounded-lg">
-            <p className="font-medium text-amber-800">Demo credentials for testing:</p>
-            <div className="space-y-1 mt-2">
-              <p><strong>Admin:</strong> admin@example.com / password</p>
-              <p><strong>User:</strong> user@example.com / password</p>
-              <p><strong>Test:</strong> test@test.com / test</p>
+          {/* Demo Credentials */}
+          <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+              💡 Demo Credentials (Choose any)
+            </h3>
+            <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+              <p><strong>Option 1:</strong> admin@example.com / password</p>
+              <p><strong>Option 2:</strong> test@example.com / password123</p>
+              <p><strong>Option 3:</strong> user@example.com / password</p>
             </div>
-            
-            {/* Quick login buttons */}
-            <div className="mt-3 space-y-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const emailEl = document.getElementById('email') as HTMLInputElement
-                  const passwordEl = document.getElementById('password') as HTMLInputElement
-                  if (emailEl) emailEl.value = 'admin@example.com'
-                  if (passwordEl) passwordEl.value = 'password'
-                }}
-                className="w-full px-3 py-2 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200 transition-colors"
-              >
-                🔸 Auto-fill Admin
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => alert('Simple test button works!')}
-                className="w-full px-3 py-2 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200 transition-colors"
-              >
-                🧪 Simple Test Button
-              </button>
-              
-              <button
-                type="button"
-                onClick={handleDirectLogin}
-                className="w-full px-3 py-2 text-xs bg-orange-100 text-orange-800 rounded hover:bg-orange-200 transition-colors"
-              >
-                🚀 Direct Test Login (Admin)
-              </button>
-            </div>
+          </div>
+
+          {/* Navigation */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => router.push('/')}
+              className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              ← Back to Home
+            </button>
           </div>
         </div>
       </div>

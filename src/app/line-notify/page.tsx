@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function EmailNotifyTest() {
   const [isTestingConnection, setIsTestingConnection] = useState(false)
@@ -57,148 +58,175 @@ export default function EmailNotifyTest() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
-          subject: '� ทดสอบ Todo Notification',
-          message: 'Test message',
+        body: JSON.stringify({
+          subject: '📧 การแจ้งเตือน Todo ใหม่ - ระบบทดสอบ',
+          message: `📧 **การแจ้งเตือน Todo ใหม่**
+
+🔖 **หัวข้อ:** ${testTodo.title}
+📝 **รายละเอียด:** ${testTodo.description}
+📂 **หมวดหมู่:** ${testTodo.category}
+⭐ **ความสำคัญ:** ${testTodo.priority}
+📅 **กำหนดเสร็จ:** ${testTodo.dueDate}
+
+✨ ระบบทำงานได้ปกติแล้ว!`,
           todoData: testTodo
         }),
       })
 
       if (response.ok) {
-        alert('ส่ง test email สำเร็จ! ตรวจสอบ Gmail ของคุณ')
+        setTestResult('✅ ส่งอีเมลทดสอบ Todo สำเร็จ! ตรวจสอบ Gmail ของคุณ')
       } else {
         const error = await response.json()
-        alert(`เกิดข้อผิดพลาด: ${error.error}`)
+        setTestResult(`❌ เกิดข้อผิดพลาด: ${error.error}`)
       }
     } catch (error) {
-      alert(`เกิดข้อผิดพลาด: ${error}`)
+      setTestResult(`❌ เกิดข้อผิดพลาดในการส่งอีเมล: ${error}`)
     } finally {
       setIsSendingTest(false)
     }
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-          � Gmail SMTP Notification Settings
-        </h1>
-
-        <div className="space-y-4">
-          {/* Status */}
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-            <h2 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
-              สถานะการตั้งค่า
-            </h2>
-            <p className="text-blue-800 dark:text-blue-200">
-              {process.env.NODE_ENV === 'development' ? (
-                <>
-                  ✅ Development mode - ระบบพร้อมทดสอบ<br/>
-                  📋 ตรวจสอบไฟล์ .env.local ว่ามี Gmail credentials หรือไม่
-                </>
-              ) : (
-                '🚀 Production mode'
-              )}
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-black dark:to-gray-900">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            📧 Email Notification Settings
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+            ตั้งค่าและทดสอบระบบแจ้งเตือนทาง Email
+          </p>
+          
+          {/* Navigation Links */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <Link
+              href="/todos"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              ← กลับไปที่ Todo
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            >
+              🏠 หน้าหลัก
+            </Link>
           </div>
+        </div>
 
-          {/* Test Buttons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Main Content */}
+        <div className="space-y-6">
+          {/* Test Connection Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-lg">🔗</span>
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                ทดสอบการเชื่อมต่อ
+              </h2>
+            </div>
+            
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              ทดสอบการเชื่อมต่อระบบ Gmail SMTP เพื่อแน่ใจว่าสามารถส่งอีเมลได้
+            </p>
+            
             <button
               onClick={testConnection}
               disabled={isTestingConnection}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                isTestingConnection
-                  ? 'bg-gray-400 cursor-not-allowed text-gray-700'
-                  : 'bg-green-600 hover:bg-green-700 text-white'
-              }`}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
             >
-              {isTestingConnection ? '⏳ กำลังทดสอบ...' : '🧪 ทดสอบการเชื่อมต่อ'}
+              {isTestingConnection ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  กำลังทดสอบ...
+                </>
+              ) : (
+                '🧪 ทดสอบการเชื่อมต่อ'
+              )}
             </button>
+          </div>
 
+          {/* Test Todo Notification Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-lg">📝</span>
+              </div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                ทดสอบการแจ้งเตือน Todo
+              </h2>
+            </div>
+            
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              ส่งอีเมลทดสอบในรูปแบบการแจ้งเตือน Todo ใหม่
+            </p>
+            
             <button
               onClick={sendTestMessage}
               disabled={isSendingTest}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                isSendingTest
-                  ? 'bg-gray-400 cursor-not-allowed text-gray-700'
-                  : 'bg-purple-600 hover:bg-purple-700 text-white'
-              }`}
+              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
             >
-              {isSendingTest ? '⏳ กำลังส่ง...' : '� ส่งอีเมลทดสอบ'}
+              {isSendingTest ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  กำลังส่ง...
+                </>
+              ) : (
+                '📧 ส่งอีเมลทดสอบ Todo'
+              )}
             </button>
           </div>
 
-          {/* Test Result */}
+          {/* Result Display */}
           {testResult && (
-            <div className={`p-4 rounded-lg ${
+            <div className={`rounded-xl p-4 ${
               testResult.includes('✅') 
-                ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200' 
-                : 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200'
+                ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700' 
+                : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700'
             }`}>
-              {testResult}
+              <p className={`font-medium ${
+                testResult.includes('✅') 
+                  ? 'text-green-800 dark:text-green-200' 
+                  : 'text-red-800 dark:text-red-200'
+              }`}>
+                {testResult}
+              </p>
             </div>
           )}
 
-          {/* Setup Guide */}
-          <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-              📚 วิธีการตั้งค่า Gmail SMTP
-            </h3>
-            <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white">1. เปิดใช้งาน 2-Step Verification</h4>
-                <p>ไปที่ <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Google Account Security</a> และเปิดใช้งาน 2-Step Verification</p>
+          {/* Configuration Info */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center mb-4">
+              <div className="w-8 h-8 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center mr-3">
+                <span className="text-lg">⚙️</span>
               </div>
-              
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white">2. สร้าง App Password</h4>
-                <p>ไปที่ <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">Google App Passwords</a> และสร้าง password สำหรับ app</p>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                การตั้งค่าระบบ
+              </h2>
+            </div>
+            
+            <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+              <div className="flex items-center">
+                <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                ระบบใช้ Gmail SMTP สำหรับการส่งอีเมล
               </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white">3. เพิ่มข้อมูลใน .env.local</h4>
-                <code className="block p-3 bg-gray-800 text-green-400 rounded mt-2 whitespace-pre-wrap">
-{`# Gmail SMTP Configuration
-GMAIL_EMAIL=your_email@gmail.com
-GMAIL_APP_PASSWORD=your_16_character_app_password
-NOTIFICATION_EMAIL=recipient@gmail.com  # (optional - หากไม่กำหนดจะส่งไปที่ GMAIL_EMAIL)`}
-                </code>
+              <div className="flex items-center">
+                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                อีเมลจะถูกส่งอัตโนมัติเมื่อมีการเพิ่ม Todo ใหม่
               </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-white">4. Restart Development Server</h4>
-                <code className="block p-2 bg-gray-800 text-green-400 rounded mt-1">
-                  npm run dev
-                </code>
+              <div className="flex items-center">
+                <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                สามารถปรับแต่งการตั้งค่าใน Environment Variables
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Features */}
-          <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-            <h3 className="text-lg font-semibold text-yellow-900 dark:text-yellow-100 mb-3">
-              ✨ คุณสมบัติ Email Notification
-            </h3>
-            <ul className="space-y-1 text-sm text-yellow-800 dark:text-yellow-200">
-              <li>� ส่งอีเมลแจ้งเตือนเมื่อเพิ่ม todo ใหม่</li>
-              <li>🎨 รูปแบบอีเมล HTML สวยงาม</li>
-              <li>📱 รองรับการแสดงผลใน mobile</li>
-              <li>🆓 ฟรี (ใช้ Gmail SMTP)</li>
-              <li>🔧 ปรับแต่งได้ (subject, recipient)</li>
-              <li>� แสดงรายละเอียดงานครบถ้วน</li>
-            </ul>
-          </div>
-
-          {/* Back to Todos */}
-          <div className="pt-4">
-            <a
-              href="/todos"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
-            >
-              ← กลับไปหน้า Todo List
-            </a>
-          </div>
+        {/* Footer */}
+        <div className="text-center mt-12 text-sm text-gray-500 dark:text-gray-400">
+          <p>ระบบแจ้งเตือนจะช่วยให้คุณไม่พลาดงานสำคัญ</p>
         </div>
       </div>
     </div>

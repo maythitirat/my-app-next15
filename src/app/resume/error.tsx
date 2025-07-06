@@ -9,12 +9,12 @@ export default function ResumeError({
   reset: () => void;
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fffbe7]">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 border border-[#ffe082]">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <div className="text-center">
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100">
             <svg
-              className="h-6 w-6 text-red-600"
+              className="h-6 w-6 text-gray-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -43,7 +43,7 @@ export default function ResumeError({
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => reset()}
-              className="flex-1 bg-[#ffa000] text-white px-4 py-2 rounded-md hover:bg-[#ff8f00] transition-colors"
+              className="flex-1 bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
             >
               Try again
             </button>

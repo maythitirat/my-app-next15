@@ -12,7 +12,7 @@ export default function BackToHomeButton({
 }: BackToHomeButtonProps) {
   const baseStyles = variant === "button" 
     ? "inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium"
-    : "inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium";
+    : "inline-flex items-center text-gray-600 hover:text-gray-800 text-sm font-medium";
 
   return (
     <Link 

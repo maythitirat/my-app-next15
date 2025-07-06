@@ -42,20 +42,20 @@ export default function SearchResume({ resumes }: SearchResumeProps) {
           placeholder="Search resumes by name, email, summary, or skills..."
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
-          className="w-full px-4 py-3 border-2 border-[#ffe082] rounded-lg focus:outline-none focus:border-[#ffa000] transition-colors"
+          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-gray-600 transition-colors"
         />
         {isPending && (
-          <div className="mt-2 text-sm text-[#ffa000]">Searching...</div>
+          <div className="mt-2 text-sm text-gray-600">Searching...</div>
         )}
       </div>
 
       {/* Results */}
       <div className={`space-y-4 transition-opacity ${isPending ? 'opacity-50' : 'opacity-100'}`}>
         {filteredResumes.map((resume) => (
-          <div key={resume.id} className="bg-white rounded-lg shadow-md border border-[#ffe082] p-6 hover:shadow-lg transition-shadow">
+          <div key={resume.id} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-[#ffa000] mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   <Link href={`/resume/${resume.id}`} className="hover:underline">
                     {resume.full_name}
                   </Link>
@@ -69,13 +69,13 @@ export default function SearchResume({ resumes }: SearchResumeProps) {
                     {resume.skills.slice(0, 5).map((skill, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 bg-[#ffe082] text-[#ffa000] rounded-full text-sm font-medium"
+                        className="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm font-medium"
                       >
                         {skill}
                       </span>
                     ))}
                     {resume.skills.length > 5 && (
-                      <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-sm">
+                      <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
                         +{resume.skills.length - 5} more
                       </span>
                     )}
@@ -85,7 +85,7 @@ export default function SearchResume({ resumes }: SearchResumeProps) {
               
               <Link
                 href={`/resume/${resume.id}`}
-                className="ml-4 bg-[#ffa000] text-white px-4 py-2 rounded-md hover:bg-[#ff8f00] transition-colors"
+                className="ml-4 bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
               >
                 View
               </Link>

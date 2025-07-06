@@ -45,7 +45,7 @@ export default function TodoList() {
             placeholder="ค้นหางาน..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           />
         </div>
 
@@ -59,7 +59,7 @@ export default function TodoList() {
                 onClick={() => setFilter(key)}
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
                   state.filter === key
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-gray-800 text-white dark:bg-gray-600'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
                 }`}
               >
@@ -74,7 +74,7 @@ export default function TodoList() {
             <select
               value={state.sortBy}
               onChange={(e) => setSortBy(e.target.value as 'dueDate' | 'priority' | 'createdAt')}
-              className="px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               {sortOptions.map(({ key, label }) => (
                 <option key={key} value={key}>
@@ -88,17 +88,17 @@ export default function TodoList() {
 
       {/* Stats */}
       {totalTodos > 0 && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
           <div className="flex flex-wrap gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-blue-600 dark:text-blue-400">📊</span>
+              <span className="text-gray-600 dark:text-gray-400">📊</span>
               <span className="text-gray-700 dark:text-gray-300">
                 ความคืบหน้า: {completedTodos}/{totalTodos} ({Math.round((completedTodos / totalTodos) * 100)}%)
               </span>
             </div>
             {activeTodos > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-orange-600 dark:text-orange-400">⏰</span>
+                <span className="text-gray-600 dark:text-gray-400">⏰</span>
                 <span className="text-gray-700 dark:text-gray-300">
                   เหลือ {activeTodos} งาน
                 </span>
@@ -109,7 +109,7 @@ export default function TodoList() {
           {/* Progress Bar */}
           <div className="mt-2 w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
             <div
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-gray-800 dark:bg-gray-400 h-2 rounded-full transition-all duration-300"
               style={{ width: `${totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0}%` }}
             ></div>
           </div>
@@ -119,37 +119,41 @@ export default function TodoList() {
       {/* Todo List */}
       <div className="space-y-2">
         {searchFilteredTodos.length === 0 ? (
-          <div className="text-center py-8">
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             {totalTodos === 0 ? (
-              <div className="text-gray-500 dark:text-gray-400">
+              <div>
                 <div className="text-4xl mb-2">📝</div>
                 <p>ยังไม่มีงานในรายการ</p>
-                <p className="text-sm">เริ่มต้นด้วยการเพิ่มงานใหม่!</p>
+                <p className="text-sm mt-1">เริ่มต้นโดยการเพิ่มงานใหม่</p>
               </div>
             ) : searchTerm ? (
-              <div className="text-gray-500 dark:text-gray-400">
+              <div>
                 <div className="text-4xl mb-2">🔍</div>
-                <p>ไม่พบงานที่ค้นหา</p>
-                <p className="text-sm">ลองใช้คำค้นหาอื่น</p>
+                <p>ไม่พบงานที่ตรงกับการค้นหา &quot;{searchTerm}&quot;</p>
               </div>
             ) : (
-              <div className="text-gray-500 dark:text-gray-400">
+              <div>
                 <div className="text-4xl mb-2">✅</div>
-                <p>ไม่มีงานในหมวดนี้</p>
+                <p>ไม่มีงานในหมวดหมู่นี้</p>
               </div>
             )}
           </div>
         ) : (
-          searchFilteredTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
-          ))
+          <div className="space-y-2">
+            {searchFilteredTodos.map(todo => (
+              <TodoItem key={todo.id} todo={todo} />
+            ))}
+          </div>
         )}
       </div>
 
-      {/* Show search result count */}
-      {searchTerm && searchFilteredTodos.length > 0 && (
-        <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          พบ {searchFilteredTodos.length} งานจากการค้นหา &ldquo;{searchTerm}&rdquo;
+      {/* Summary */}
+      {totalTodos > 0 && (
+        <div className="text-center text-sm text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <p>
+            แสดง {searchFilteredTodos.length} จาก {totalTodos} งาน
+            {searchTerm && ` • ค้นหา: "${searchTerm}"`}
+          </p>
         </div>
       )}
     </div>

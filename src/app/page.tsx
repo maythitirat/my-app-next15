@@ -33,7 +33,7 @@ export default function Home() {
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-600"></div>
       </div>
     );
   }
@@ -41,13 +41,13 @@ export default function Home() {
   // Not authenticated
   if (!session) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-black dark:to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to Resume Manager</h1>
           <p className="text-lg text-gray-600 mb-8">Please sign in to access your dashboard</p>
           <Link
             href="/authentication"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
           >
             Sign In
           </Link>
@@ -60,7 +60,7 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       {/* Logout button */}
       <button
-        className="fixed top-6 right-6 z-50 bg-[#ffcb2b] text-[#22242a] font-semibold px-4 py-2 rounded shadow hover:bg-[#ffe082] transition-colors"
+        className="fixed top-6 right-6 z-50 bg-gray-900 text-white font-semibold px-4 py-2 rounded shadow hover:bg-gray-700 transition-colors"
         onClick={() => signOut()}
       >
         Log out
@@ -93,28 +93,28 @@ export default function Home() {
         <div className="flex flex-col gap-6 p-8 pt-20">
           <Link
             href="/resume"
-            className="text-lg font-semibold text-blue-700 hover:underline"
+            className="text-lg font-semibold text-gray-700 hover:underline"
             onClick={() => setOpen(false)}
           >
             Resume Management
           </Link>
           <a
             href="/search"
-            className="text-lg font-semibold text-green-700 hover:underline"
+            className="text-lg font-semibold text-gray-700 hover:underline"
             onClick={() => setOpen(false)}
           >
             🔍 Search Resumes
           </a>
           <Link
             href="/resume/create"
-            className="text-lg font-semibold text-purple-700 hover:underline"
+            className="text-lg font-semibold text-gray-700 hover:underline"
             onClick={() => setOpen(false)}
           >
             ➕ Create Resume
           </Link>
           <Link
             href="/todos"
-            className="text-lg font-semibold text-orange-700 hover:underline"
+            className="text-lg font-semibold text-gray-700 hover:underline"
             onClick={() => setOpen(false)}
           >
             📋 Todo List
@@ -216,7 +216,7 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-white/80 rounded px-4 py-2 shadow text-center text-sm text-[#22242a] font-medium">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-gray-800/90 rounded px-4 py-2 shadow text-center text-sm text-gray-800 dark:text-gray-200 font-medium">
         {session.user?.name && <span>👤 {session.user.name} </span>}
         {session.user?.email && <span> | 📧 {session.user.email}</span>}
       </div>

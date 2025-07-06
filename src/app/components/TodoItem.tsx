@@ -42,15 +42,15 @@ export default function TodoItem({ todo }: TodoItemProps) {
   }
 
   const priorityColors = {
-    low: 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800',
-    high: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'
+    low: 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600',
+    medium: 'bg-gray-200 text-gray-800 border-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-500',
+    high: 'bg-gray-300 text-black border-gray-400 dark:bg-gray-500 dark:text-white dark:border-gray-400'
   }
 
   const priorityLabels = {
-    low: '🟢 ต่ำ',
-    medium: '🟡 ปานกลาง',
-    high: '🔴 สูง'
+    low: '⚪ ต่ำ',
+    medium: '⚫ ปานกลาง',
+    high: '⬛ สูง'
   }
 
   const categories = [

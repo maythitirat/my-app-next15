@@ -26,6 +26,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           { id: '1', email: 'admin@example.com', password: 'password', name: 'Admin User' },
           { id: '2', email: 'user@example.com', password: 'password', name: 'Regular User' },
           { id: '3', email: 'test@test.com', password: 'test', name: 'Test User' },
+          { id: '4', email: 'test@example.com', password: 'password123', name: 'Test Example User' },
         ]
         
         const user = users.find(u => 

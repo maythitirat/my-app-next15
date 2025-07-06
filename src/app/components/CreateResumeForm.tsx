@@ -38,7 +38,7 @@ export default function CreateResumeForm() {
             id="name"
             name="name"
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="เช่น สมชาย ใจดี"
           />
         </div>
@@ -52,7 +52,7 @@ export default function CreateResumeForm() {
             id="email"
             name="email"
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="เช่น somchai@example.com"
           />
         </div>
@@ -66,7 +66,7 @@ export default function CreateResumeForm() {
             id="phone"
             name="phone"
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="เช่น 081-234-5678"
           />
         </div>
@@ -80,7 +80,7 @@ export default function CreateResumeForm() {
             name="summary"
             rows={5}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
             placeholder="เช่น นักพัฒนา Full Stack Developer ที่มีประสบการณ์ 3 ปี เชี่ยวชาญใน React, Node.js และ PostgreSQL"
           />
         </div>
@@ -88,20 +88,20 @@ export default function CreateResumeForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isPending ? 'Creating...' : 'Create Resume'}
         </button>
       </form>
 
       {state?.error && (
-        <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mt-4 p-3 bg-gray-100 border border-gray-400 text-gray-700 rounded">
           {state.error}
         </div>
       )}
 
       {state?.success && (
-        <div className="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="mt-4 p-3 bg-gray-100 border border-gray-400 text-gray-700 rounded">
           {state.success}
           {state.shouldRedirect && (
             <div className="text-sm mt-1">กำลังนำคุณไปยังหน้ารายการ resume...</div>

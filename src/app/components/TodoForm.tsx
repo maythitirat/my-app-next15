@@ -59,15 +59,15 @@ export default function TodoForm() {
   ]
 
   const priorityColors = {
-    low: 'text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400',
-    medium: 'text-yellow-600 border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-400',
-    high: 'text-red-600 border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800 dark:text-red-400'
+    low: 'text-gray-600 border-gray-300 bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300',
+    medium: 'text-gray-800 border-gray-400 bg-gray-200 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-200',
+    high: 'text-black border-gray-500 bg-gray-300 dark:bg-gray-500 dark:border-gray-400 dark:text-white'
   }
 
   const priorityLabels = {
-    low: '🟢 ต่ำ',
-    medium: '🟡 ปานกลาง',
-    high: '🔴 สูง'
+    low: '⚪ ต่ำ',
+    medium: '⚫ ปานกลาง',
+    high: '⬛ สูง'
   }
 
   return (
@@ -83,7 +83,7 @@ export default function TodoForm() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="เช่น: ทำรายงานประจำเดือน"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           required
         />
       </div>
@@ -99,7 +99,7 @@ export default function TodoForm() {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="รายละเอียดเพิ่มเติม (ไม่บังคับ)"
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
       </div>
 
@@ -112,7 +112,7 @@ export default function TodoForm() {
           id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>
@@ -125,7 +125,7 @@ export default function TodoForm() {
       {/* Priority */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          ระดับความสำคัญ
+          ความสำคัญ
         </label>
         <div className="grid grid-cols-3 gap-2">
           {(Object.entries(priorityLabels) as [keyof typeof priorityLabels, string][]).map(([value, label]) => (
@@ -161,7 +161,7 @@ export default function TodoForm() {
           id="dueDate"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
         />
       </div>
 
@@ -169,10 +169,10 @@ export default function TodoForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={`w-full font-medium py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+        className={`w-full font-medium py-2 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 ${
           isSubmitting
             ? 'bg-gray-400 cursor-not-allowed text-gray-700'
-            : 'bg-blue-600 hover:bg-blue-700 text-white'
+            : 'bg-gray-800 hover:bg-black text-white dark:bg-gray-600 dark:hover:bg-gray-500'
         }`}
       >
         {isSubmitting ? '⏳ กำลังเพิ่ม...' : '➕ เพิ่มงาน'}
