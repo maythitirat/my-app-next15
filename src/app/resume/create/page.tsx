@@ -16,26 +16,28 @@ export default function CreateResumePage() {
         <div className="mb-6">
           <BackToHomeButton />
         </div>
-        
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Create New Resume</h1>
-          <div className="bg-gray-100 border-l-4 border-gray-400 p-4 mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">ตัวอย่างข้อมูลสำหรับทดสอบ:</h3>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-              <div>
-                <strong>ชื่อ-นามสกุล:</strong> สมชาย ใจดี<br/>
-                <strong>อีเมล:</strong> somchai@example.com<br/>
-                <strong>เบอร์โทร:</strong> 081-234-5678
-              </div>
-              <div>
-                <strong>สรุปประสบการณ์:</strong><br/>
-                นักพัฒนา Full Stack Developer ที่มีประสบการณ์ 3 ปี เชี่ยวชาญใน React, Node.js และ PostgreSQL มีประสบการณ์ในการพัฒนาระบบ web application ตั้งแต่ frontend จนถึง backend
+
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-4">Create New Resume</h1>
+            <div className="bg-gray-100 border-l-4 border-gray-400 p-4 mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">ตัวอย่างข้อมูลสำหรับทดสอบ:</h3>
+              <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <div>
+                  <strong>ชื่อ-นามสกุล:</strong> สมชาย ใจดี<br/>
+                  <strong>อีเมล:</strong> somchai@example.com<br/>
+                  <strong>เบอร์โทร:</strong> 081-234-5678
+                </div>
+                <div>
+                  <strong>สรุปประสบการณ์:</strong><br/>
+                  นักพัฒนา Full Stack Developer ที่มีประสบการณ์ 3 ปี เชี่ยวชาญใน React, Node.js และ PostgreSQL มีประสบการณ์ในการพัฒนาระบบ web application ตั้งแต่ frontend จนถึง backend
+                </div>
               </div>
             </div>
           </div>
+          
+          <CreateResumeForm />
         </div>
-        
-        <CreateResumeForm />
       </div>
     </div>
   );
